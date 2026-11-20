@@ -18,7 +18,7 @@ let params=JSON.parse(JSON.stringify(DEFP)); const draws={}, calcs={}, onD=[]; l
 window.dash={colors:['#3b6ea5','#e3a33b','#5aa469','#b55d8a','#7a6fc4','#c4573f','#4fa3a5','#8a8a3b'],
  params:()=>params, setParams:(o)=>{Object.assign(params,o);cache={};run();}, resetParams:()=>{params=JSON.parse(JSON.stringify(DEFP));cache={};run();},
  data:(id)=>{ if(DATA[id]) return {status:'ok',data:DATA[id]}; if(calcs[id]){ if(!(id in cache)){const c=calcs[id]; cache[id]=c.fn(...c.inputs.map(i=>dash.data(i).data));} return {status:'ok',data:cache[id]}; } return {status:'missing',data:[]}; },
- draw:(n,fn)=>{draws[n]=fn;}, setLink:(id)=>{ if(history.replaceState) history.replaceState(null,'','#'+id); setTimeout(run,0); }, calc:(id,o)=>{calcs[id]=o;}, onData:(f)=>{onD.push(f);}, loader:()=>{}, refresh:()=>{}};
+ draw:(n,fn)=>{draws[n]=fn;}, setLink:(id)=>{ setTimeout(run,0); }, calc:(id,o)=>{calcs[id]=o;}, onData:(f)=>{onD.push(f);}, loader:()=>{}, refresh:()=>{}};
 function run(){ onD.forEach(f=>{try{f()}catch(e){console.error(e)}});
  for(const [n,fn] of Object.entries(draws)) document.querySelectorAll('[data-draw="'+n+'"]').forEach(el=>{ if(el.closest('[hidden]')) return; try{fn(el)}catch(e){console.error(n,e)} }); }
 let rt; window.addEventListener('resize',()=>{clearTimeout(rt);rt=setTimeout(run,150);});</script>
@@ -809,4 +809,4 @@ let rt; window.addEventListener('resize',()=>{clearTimeout(rt);rt=setTimeout(run
 })();
 
 </script>
-</div><script>run();</script></body></html>
+</div><script>run(); if(location.hash){ history.replaceState(null,'',location.pathname+location.search); } window.scrollTo(0,0);</script></body></html>
