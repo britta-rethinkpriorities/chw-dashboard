@@ -152,7 +152,7 @@ let rt; window.addEventListener('resize',()=>{clearTimeout(rt);rt=setTimeout(run
         <dt>Cost per DALY averted</dt><dd>Extra cost per year divided by extra disability-adjusted life years averted per year. Lower is better.</dd>
         <dt>GiveWell multiples of cash</dt><dd>Value per dollar roughly compared to direct cash transfers by GiveDirectly. GiveWell's funding bar is 6×.</dd>
         <dt>Coefficient Giving SROI</dt><dd>Social return on investment in Coefficient Giving's units. Its funding bar is 1,000×.</dd>
-        <dt>CHW earnings per $ invested</dt><dd>Extra pay CHWs receive, net of earnings they give up, per dollar of extra cost.</dd>
+        <dt>CHW earnings per $ invested</dt><dd>Extra pay CHWs receive, net of earnings they give up, per dollar the funder spends (after the government takes over its share of costs).</dd>
         <dt>Sources of impact</dt><dd>Health (deaths and DALYs averted), patients' income (longer-run income gains, for example from malaria treatment and family planning) and CHW earnings.</dd>
       </dl>
     </div>
@@ -242,7 +242,7 @@ let rt; window.addEventListener('resize',()=>{clearTimeout(rt);rt=setTimeout(run
       <div class="chw-tile" id="tile-earn">
         <p class="chw-label">CHW earnings per $ invested</p>
         <p class="chw-big" data-draw="kpi-earn">—</p>
-        <p class="chw-note">Extra CHW pay, net of earnings given up, per dollar of incremental cost</p>
+        <p class="chw-note">Extra CHW pay, net of earnings given up, per funder dollar</p>
       </div>
     </div>
   </section>
@@ -392,7 +392,7 @@ let rt; window.addEventListener('resize',()=>{clearTimeout(rt);rt=setTimeout(run
       return {name: sc.name, na: false, cost, deaths: dD, dalys: dY,
         gw_health, gw_chw, gw_patient, gw_total: gw_health + gw_chw + gw_patient,
         cg_health, cg_chw, cg_patient, cg_total: cg_health + cg_chw + cg_patient,
-        cost_per_daly: cpd, cost_per_death: cost / dD, earnings_per_dollar: dEarn / cost};
+        cost_per_daly: cpd, cost_per_death: cost / dD, earnings_per_dollar: dEarn / cost * TM};
     });
     return {scenarios: scen, services: perService, TM, capacity: CAP, perChw: {deaths, dalys, gw, liv}};
   }
@@ -809,4 +809,4 @@ let rt; window.addEventListener('resize',()=>{clearTimeout(rt);rt=setTimeout(run
 })();
 
 </script>
-</div><script>run(); if(location.hash){ history.replaceState(null,'',location.pathname+location.search); } window.scrollTo(0,0);</script></body></html>
+</div><script>if('scrollRestoration' in history) history.scrollRestoration='manual'; run(); if(location.hash){ history.replaceState(null,'',location.pathname+location.search); } window.scrollTo(0,0); window.addEventListener('load',()=>window.scrollTo(0,0));</script></body></html>
